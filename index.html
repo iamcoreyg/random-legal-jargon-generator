@@ -1,0 +1,147 @@
+<html>
+<head>
+<link rel="stylesheet" href="https://storage.googleapis.com/code.getmdl.io/1.0.0/material.indigo-pink.min.css">
+<script src="https://storage.googleapis.com/code.getmdl.io/1.0.0/material.min.js"></script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<style>
+html, body  {
+	font-family: "Georgia";
+	-webkit-font-smoothing: antialiased;
+}
+
+#wrap {
+	width: 60%;
+	margin: auto;
+}
+
+#words {
+  font-size: 13pt; 
+  line-height: 1.4;
+  width: 100%;
+  margin-top: 20px;
+  padding: 20px;
+}
+
+#numWords {
+	  padding: 10px;
+  font-size: 12pt;
+  outline: none;
+}
+
+.cap {
+	 text-transform: capitalize
+}
+
+.presets {
+	margin: 10px 0;
+	font-family: "Helvetica", sans-serif;
+}
+
+
+</style>
+<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+<script>
+$(document).ready(function(){
+var legalWords = ["notice", "aka", "rehabilitation", "acknowledgement", "action", "adjournment", "adjudication", "hearing", "transfer", "probation", "affirmation", "affidavit", "program", "doctrine", "alimony", "allegation", "juror", "program", "resolution", "center", "sanctions", "brief", "annulment", "answer", "appeal", "bond", "appearance", "appellant", "appellee", "arbitration", "arraignment", "arrest", "arrearages", "list", "general", "attachment", "record", "orders", "bail", "bondsperson", "commissioner", "bar", "child", "warrant", "bond", "bonds", "bonds", "bond", "review", "bondsman", "brief", "irretrievably", "calendar", "call", "mittimus", "felony", "case", "conference", "file", "coordinator", "unit", "certify", "cgs", "challenge", "charge", "jury", "chattels", "example", "child", "support", "cip", "action", "claim", "officer", "law", "service", "coordinator", "program", "complaint", "litigation", "includes", "discharge", "court", "continuance", "date", "contract", "conviction", "costs", "count", "claim", "attorney", "clerk", "interpreter", "monitor", "reporter", "officer", "trial", "program", "examination", "custody", "affidavit", "damages", "center", "declaration", "default", "defendant", "delinquent", "due", "deposition", "hearing", "discovery", "dismissal", "prejudice", "dispose", "disposition", "dissolution", "programs", "docket", "number", "domicile", "court", "program", "ejectment", "monitoring", "minor", "emancipation", "domain", "eviction", "evidence", "parte", "suspended", "appear", "counselor", "magistrate", "program", "advocate", "needs", "felony", "murder", "filing", "affidavit", "finding", "foreclosure", "foreman", "garnishment", "area", "grievance", "guardian", "litem", "corpus", "hearsay", "court", "specialist", "jury", "incarceration", "order", "indigent", "infraction", "injunction", "interpreter", "interrogatory", "jury", "judge", "judgment", "file", "district", "number", "jurisdiction", "juror", "charge", "instructions", "court", "delinquent", "detention", "center", "officer", "matters", "probation", "officer", "librarian", "services", "custody", "separation", "lien", "pendens", "litigant", "lockout", "magistrate", "mandamus", "marshal", "mediation", "minor", "misdemeanor", "circumstances", "judgment", "modification", "motion", "movant", "party", "exeat", "minor", "order", "divorce", "nolle", "contendere", "contest", "suit", "notarize", "oath", "probation", "order", "detain", "custody", "parcel", "program", "parole", "parties", "party", "paternity", "order", "challenge", "perjury", "petition", "petitioner", "plaintiff", "plea", "example", "bargain", "pleadings", "example", "bond", "judgment", "book", "investigation", "pretrial", "hearing", "hearing", "court", "probation", "absconder", "appear", "divorce", "prosecute", "prosecutor", "order", "defender", "ready", "record", "referee", "docket", "docket", "programs", "respondent", "rest", "restitution", "order", "date", "hearing", "cause", "seal", "judge", "sentences", "sentencing", "modification", "review", "offender", "offense", "service", "calendar", "opinions", "claims", "court", "example", "referee", "attorney", "statute", "limitations", "stay", "stipulation", "subpoena", "tecum", "education", "charge", "process", "summons", "officer", "testimony", "served", "title", "tort", "transcript", "transfer", "hearing", "novo", "referee", "for", "discharge", "vacate", "venue", "advocate", "visitation", "violation", "probation", "dire", "execution", "withholding", "witness", "writ", "youth", "offender"];
+
+var generate = function(num, elem) {
+  	if(elem == undefined) {
+  		$words = $("#words p")	
+  	} else {
+  		$words = elem
+  	}
+  	
+
+  for (var i = 1; i <= num; i++) {
+    var endOfSentence = false,
+        item = legalWords[Math.floor(Math.random() * legalWords.length)]
+    
+    if (i % 12 == 0 && i > 2) {
+      $words.append(". " + '<span class="cap">' + item + '</span>')
+      endOfSentence = true;
+    }
+    
+    if (endOfSentence == false) {
+      if (i == 1) {
+        $words.append('<span class="cap">' + item + '</span>')
+      } else {
+        $words.append(" " + item)
+      }
+    }
+
+    if(i % 13 == 0 && num != 130) {
+    	$words.append(". Also, ")
+    }
+
+    if(i % 9 == 0 && num != 90) {
+    	$words.append(" the ")
+    }
+
+    if(i % 4 == 0 && num != 40) {
+    	$words.append(" and ")
+    }
+
+    if(i == num) {
+    	$words.append(". ")
+    }
+  }
+
+  return false
+}
+
+var clear = function() {
+	$('#words').html('<p></p>')
+}
+
+var addParagraph = function(num) {
+	if(num == undefined) {
+		num = 50
+	} 
+	$('#words').append("<p></p>")
+	generate(num, $('#words p').last())
+}
+
+$('#numWords').on('keyup', function() {
+	clear()
+	generate($('#numWords').val())
+	return false
+})
+
+$('.preset-btn').on('click', function(){
+	addParagraph( $(this).data("num") )
+	return false
+})
+
+$('.clear').click(clear)
+
+
+})
+</script>
+<body>
+<div id="wrap">
+<h1>Random Legal Jargon Generator</h1>
+
+<form>
+  <input type="number" autocomplete="off" name="numWords" placeholder="Number of words" class="mdl-textfield__input" id="numWords"/>
+</form>
+   <div class="presets">
+  <button data-num="10" class="preset-btn mdl-button mdl-js-button mdl-button--raised mdl-button--colored">10</button>
+  <button data-num="30" class="preset-btn mdl-button mdl-js-button mdl-button--raised mdl-button--colored">30</button>
+  <button data-num="50" class="preset-btn mdl-button mdl-js-button mdl-button--raised mdl-button--colored">50</button>
+
+
+	<!-- Raised button -->
+	<button class="clear mdl-button mdl-js-button mdl-button--raised">
+	  Clear
+	</button>
+
+
+  </div>
+<div id="words" class="mdl-card mdl-shadow--2dp">
+	<p></p>
+</div>
+
+</div>
+
+</body>
+</html>
